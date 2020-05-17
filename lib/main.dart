@@ -1,5 +1,5 @@
-import 'package:flashcards/constants.dart';
-import 'package:flashcards/ui/flashcard.dart';
+import './constants.dart';
+import './ui/flashcard.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
