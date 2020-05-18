@@ -17,10 +17,11 @@ class FileData implements DataRetrieval {
   }
   Future<List<FlashcardModel>> get _fileList async {
     try {
+      _writeToFile([["my question", "my answer", "my hint"]]);
       final file = await _file;
       final openFile = file.openRead();
       final csvList = await openFile.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
-      final fcList = [];
+      final List<FlashcardModel> fcList = [];
 
       csvList.forEach((model) {
         fcList.add(FlashcardModel(model[0], model[1], model[2]));
@@ -66,7 +67,7 @@ class FileData implements DataRetrieval {
   }
 
   @override
-  Future<FlashcardModel> getFlashcard(String name) async {
+  Future<FlashcardModel> fetchFlashcard(String name) async {
     try {
       final models = await _fileList;
       return models.firstWhere((model) => model.question == name);
@@ -76,7 +77,7 @@ class FileData implements DataRetrieval {
   }
 
   @override
-  Future<List<FlashcardModel>> getFlashcards() async {
+  Future<List<FlashcardModel>> fetchFlashcards() async {
     try {
       final models = await _fileList;
       return models;

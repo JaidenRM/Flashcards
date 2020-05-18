@@ -1,11 +1,26 @@
+import 'package:meta/meta.dart';
 import '../../model/flashcard_model.dart';
 
-class ManageFlashcardState {
-  final List<FlashcardModel> addList;
-  final List<FlashcardModel> fetchedList;
-  final String filter;
+abstract class ManageFlashcardState { }
 
-  const ManageFlashcardState({this.addList, this.fetchedList, this.filter});
+class UninitialisedState extends ManageFlashcardState{}
 
-  factory ManageFlashcardState.initial() => ManageFlashcardState(addList: null, fetchedList: null, filter: null);
+class FetchingFlashcardsState extends ManageFlashcardState{}
+
+class AddingFlashcardsState extends ManageFlashcardState{}
+
+class FetchedFlashcardsState extends ManageFlashcardState {
+  final List<FlashcardModel> flashcards;
+
+  FetchedFlashcardsState({@required this.flashcards});
 }
+
+class AddedFlashcardsState extends ManageFlashcardState {
+  final bool isSucc;
+
+  AddedFlashcardsState({@required this.isSucc});
+}
+
+class ErrorState extends ManageFlashcardState {}
+
+class EmptyState extends ManageFlashcardState {}
