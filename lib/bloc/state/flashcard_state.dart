@@ -1,7 +1,13 @@
-class FlashcardState {
-  final bool isQ; //front part of card - with the *Q*uestion
-
-  const FlashcardState({this.isQ});
-
-  factory FlashcardState.initial() => FlashcardState(isQ: true);
+abstract class FlashcardState {
+  bool isFront = true;
 }
+
+class UninitialisedState extends FlashcardState {}
+
+class FlippedState extends FlashcardState {
+  FlippedState(bool isFront) {
+    super.isFront = isFront;
+  }
+}
+
+class ErrorState extends FlashcardState {}

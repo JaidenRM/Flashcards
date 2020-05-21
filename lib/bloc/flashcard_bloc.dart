@@ -3,27 +3,22 @@ import 'package:flashcards/bloc/event/flashcard_event.dart';
 import 'package:flashcards/bloc/state/flashcard_state.dart';
 
 class FlashcardBloc extends Bloc<FlashcardEvent, FlashcardState> {
-  
-  void onFrontFlip() {
-    add(FlipToFront());
-  }
+  bool _isFront = true;
 
-  void onBackFlip() {
-    add(FlipToBack());
+  void flip() {
+    add(FlipEvent());
   }
    
-
   @override
-  FlashcardState get initialState => FlashcardState.initial();
+  FlashcardState get initialState => UninitialisedState();
 
   @override
   Stream<FlashcardState> mapEventToState(FlashcardEvent event) async* {
-    final _state = state;
-
-    if(event is FlipToFront) {
-      yield FlashcardState(isQ: true);
-    } else if (event is FlipToBack) {
-      yield FlashcardState(isQ: false);
-    }
+    
+    if(event is FlipEvent) {
+      _isFront = !_isFront;
+      yield FlippedState(_isFront);
+    } 
+    
   }
 }

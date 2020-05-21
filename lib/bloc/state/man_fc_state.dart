@@ -21,6 +21,14 @@ class AddedFlashcardsState extends ManageFlashcardState {
   AddedFlashcardsState({@required this.isSucc});
 }
 
+class UpdatingStatsState extends ManageFlashcardState {}
+
+class UpdatedStatsState extends ManageFlashcardState {
+  final bool isRight, isWrong, isLiked;
+
+  UpdatedStatsState({this.isRight, this.isWrong, this.isLiked});
+}
+
 class ErrorState extends ManageFlashcardState {}
 
 class EmptyState extends ManageFlashcardState {}

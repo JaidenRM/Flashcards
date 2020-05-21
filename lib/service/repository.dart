@@ -11,4 +11,6 @@ class Repository {
   Future<List<FlashcardModel>> fetchFlashcards() async => await data.fetchFlashcards();
   bool addFlashcard(FlashcardModel flashcard) {}
   bool addFlashcards(List<FlashcardModel> flashcards) {}
+  Future<bool> updateFlashcards(String name, {bool right, bool wrong, bool liked})
+    async => await data.updateFlashcard(name, right: right, wrong: wrong, liked: liked);
 }
