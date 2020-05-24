@@ -17,7 +17,7 @@ class FileData implements DataRetrieval {
   }
   Future<List<FlashcardModel>> get _fileList async {
     try {
-      _writeToFile([["my question", "my answer", "my hint", "0", "0", "false"]]);
+      //_writeToFile([["my question", "my answer", "my hint", "0", "0", "false"]]);
       final file = await _file;
       final openFile = file.openRead();
       final csvList = await openFile.transform(utf8.decoder).transform(new CsvToListConverter(shouldParseNumbers: false)).toList();
