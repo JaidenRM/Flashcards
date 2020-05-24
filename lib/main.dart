@@ -1,3 +1,4 @@
+import 'package:flashcards/ui/home.dart';
 import './constants.dart';
 import './ui/flashcard.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primaryColor: PRIMARY_COL),
-      home: Flashcard()
+      home: Home(title: "Home")
     );
   }
 }
