@@ -1,7 +1,14 @@
 import 'package:meta/meta.dart';
 import '../../model/flashcard_model.dart';
 
-abstract class ManageFlashcardState { }
+abstract class ManageFlashcardState { 
+  List<FlashcardModel> flashcards;
+  int currInd;
+
+  ManageFlashcardState({this.currInd, this.flashcards});
+
+  FlashcardModel get currFlashcard => flashcards[currInd];
+}
 
 class UninitialisedState extends ManageFlashcardState{}
 
@@ -10,9 +17,10 @@ class FetchingFlashcardsState extends ManageFlashcardState{}
 class AddingFlashcardsState extends ManageFlashcardState{}
 
 class FetchedFlashcardsState extends ManageFlashcardState {
-  final List<FlashcardModel> flashcards;
+  //List<FlashcardModel> flashcards;
 
-  FetchedFlashcardsState({@required this.flashcards});
+  FetchedFlashcardsState({@required List<FlashcardModel> flashcards})
+    :super(flashcards:flashcards);
 }
 
 class AddedFlashcardsState extends ManageFlashcardState {

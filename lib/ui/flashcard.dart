@@ -36,7 +36,9 @@ class _FlashcardState extends State<Flashcard> {
       child: BlocListener<ManageFlashcardBloc, ManageFlashcardState>(
         listener: (context, state) => {
           //on every 3rd tap it likes but 1st tap to unlike
-          if(state is UpdatedStatsState) _manageBloc.onFetch()
+          if(state is UpdatingStatsState) {
+            Future.delayed(Duration(seconds: 1), () => _manageBloc.onFetch())
+          }
         },
         child: FlashcardWidget()
       )
@@ -61,8 +63,11 @@ class FlashcardWidget extends StatelessWidget {
     //BlocProvider.of<ManageFlashcardBloc>(context).add(FetchFlashcardEvent());
     return BlocBuilder<ManageFlashcardBloc, ManageFlashcardState>(
       builder: (context, state) {
-        if(state is FetchingFlashcardsState)
-          return Center(child: CircularProgressIndicator());
+        if(state is FetchingFlashcardsState
+          || state is AddingFlashcardsState
+          || state is UpdatingStatsState
+          || state is UpdatedStatsState)
+            return Center(child: CircularProgressIndicator());
         else if(state is FetchedFlashcardsState) {
           return BlocBuilder<FlashcardBloc, FlashcardState>(
             builder: (context, state) {
