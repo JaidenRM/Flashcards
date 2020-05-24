@@ -64,7 +64,6 @@ class FlashcardWidget extends StatelessWidget {
     return BlocBuilder<ManageFlashcardBloc, ManageFlashcardState>(
       builder: (context, state) {
         if(state is FetchingFlashcardsState
-          || state is AddingFlashcardsState
           || state is UpdatingStatsState
           || state is UpdatedStatsState)
             return Center(child: CircularProgressIndicator());

@@ -13,10 +13,6 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
     add(FetchFlashcardEvent(filter: filter));
   }
 
-  void onAdd(String question, String answer, String hint) {
-    add(AddFlashcardEvent(question: question, answer: answer, hint: hint));
-  }
-
   void onUpdate({bool isRight, bool isWrong, bool isLiked}) {
     add(UpdateStateEvent(isRight: isRight, isWrong: isWrong, isLiked: isLiked));
   }
@@ -39,24 +35,6 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
         
         if(flashcards.length == 0) yield EmptyState();
         else yield FetchedFlashcardsState(flashcards: flashcards);
-
-      } catch(_) {
-        yield ErrorState();
-      }
-    } else if(event is AddFlashcardEvent) {
-      yield AddingFlashcardsState();
-      FlashcardModel newFlashcard;
-      bool isAdded;
-
-      try {
-        if(event.question.isNotEmpty && event.answer.isNotEmpty)
-          newFlashcard = new FlashcardModel
-            .newModel(event.question, event.answer, event.hint);
-
-        isAdded = repo.addFlashcard(newFlashcard);
-
-        if(newFlashcard == null) yield EmptyState();
-        else yield AddedFlashcardsState(isSucc: isAdded);
 
       } catch(_) {
         yield ErrorState();

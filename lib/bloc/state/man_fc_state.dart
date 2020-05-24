@@ -14,19 +14,11 @@ class UninitialisedState extends ManageFlashcardState{}
 
 class FetchingFlashcardsState extends ManageFlashcardState{}
 
-class AddingFlashcardsState extends ManageFlashcardState{}
-
 class FetchedFlashcardsState extends ManageFlashcardState {
   //List<FlashcardModel> flashcards;
 
   FetchedFlashcardsState({@required List<FlashcardModel> flashcards})
     :super(flashcards:flashcards);
-}
-
-class AddedFlashcardsState extends ManageFlashcardState {
-  final bool isSucc;
-
-  AddedFlashcardsState({@required this.isSucc});
 }
 
 class UpdatingStatsState extends ManageFlashcardState {}
