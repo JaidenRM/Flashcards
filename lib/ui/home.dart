@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FetchRoute(),
+            Padding(padding: EdgeInsets.all(30),),
             AddRoute()
           ],)
       ),

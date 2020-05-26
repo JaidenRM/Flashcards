@@ -8,6 +8,8 @@ abstract class AppText {
     color: Colors.white,
     backgroundColor: Colors.black
   );
+  static const TextStyle ERROR_TEXT = TextStyle(color: NEG_COL);
+  static const TextStyle LABEL_TEXT = TextStyle(color: PRIMARY_COL);
 }
 
 abstract class AppDeco {

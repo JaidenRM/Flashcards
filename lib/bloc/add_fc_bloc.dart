@@ -26,13 +26,13 @@ class AddFlashcardBloc extends Bloc<AddFlashcardEvent, AddFlashcardState> {
       bool isAdded;
 
       try {
-        if(event.question.isNotEmpty && event.answer.isNotEmpty)
+        if(event.question != null && event.answer != null)
           newFlashcard = FlashcardModel
             .newModel(event.question, event.answer, event.hint);
         else
           yield _fetchErrorState(event);
 
-        isAdded = repo.addFlashcard(newFlashcard);
+        isAdded = await repo.addFlashcard(newFlashcard);
 
         yield AddedState(isSucc: isAdded);
 

@@ -17,7 +17,6 @@ class FileData implements DataRetrieval {
   }
   Future<List<FlashcardModel>> get _fileList async {
     try {
-      _writeToFile([["my question", "my answer", "my hint", "0", "0", "false"]]);
       final file = await _file;
       final openFile = file.openRead();
       final csvList = await openFile.transform(utf8.decoder).transform(new CsvToListConverter(shouldParseNumbers: false)).toList();
@@ -27,6 +26,7 @@ class FileData implements DataRetrieval {
         fcList.add(FlashcardModel(
           model[0], model[1], model[2]
           , model[3], model[4], model[5]
+          , model[6]
         ));
       });
 
@@ -40,17 +40,17 @@ class FileData implements DataRetrieval {
 
   //change to append after able to add flashcards
   void _writeToFile(List<List<String>> lines, {bool overwrite = false}) async {
-    String csvLines = const ListToCsvConverter().convert(lines);
     final file = await _file;
-    if(file.lengthSync() == 0 || overwrite)
-      file.writeAsString(csvLines, mode: FileMode.writeOnly);
+    String csvLines = const ListToCsvConverter().convert(lines);
+    file.writeAsString(csvLines, mode: overwrite ? FileMode.writeOnly : FileMode.writeOnlyAppend);
   }
 
   @override
-  bool addFlashcard(FlashcardModel model) {
+  Future<bool> addFlashcard(FlashcardModel model) async {
     try {
+      model.id = await _fetchNextId();
       final csvList = model.toListString();
-      _writeToFile([csvList]);
+      _writeToFile([csvList], overwrite: true);
     } catch (e) {
       return false;
     }
@@ -59,7 +59,7 @@ class FileData implements DataRetrieval {
   }
   //should use writeOnlyAppend to write to end of file and not overwrite it
   @override
-  bool addFlashcards(List<FlashcardModel> models) {
+  Future<bool> addFlashcards(List<FlashcardModel> models) async {
     try {
       final csvList = [[]];
       models.forEach((model) { csvList.add(model.toListString()); });
@@ -108,5 +108,11 @@ class FileData implements DataRetrieval {
     } catch (_) {
       return false;
     }
+  }
+
+  Future<int> _fetchNextId() async {
+    final fileList = await _fileList;
+
+    return fileList.length;
   }
 }

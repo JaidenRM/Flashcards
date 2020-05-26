@@ -9,8 +9,8 @@ class Repository {
   //decide on how bloc calls this and assign the correct data func
   Future<FlashcardModel> fetchFlashcard(String name) async => await data.fetchFlashcard(name);
   Future<List<FlashcardModel>> fetchFlashcards() async => await data.fetchFlashcards();
-  bool addFlashcard(FlashcardModel flashcard) => data.addFlashcard(flashcard);
-  bool addFlashcards(List<FlashcardModel> flashcards) => data.addFlashcards(flashcards);
+  Future<bool> addFlashcard(FlashcardModel flashcard) async => await data.addFlashcard(flashcard);
+  Future<bool> addFlashcards(List<FlashcardModel> flashcards) async => await data.addFlashcards(flashcards);
   Future<bool> updateFlashcards(String name, {bool right, bool wrong, bool liked})
     async => await data.updateFlashcard(name, right: right, wrong: wrong, liked: liked);
 }
