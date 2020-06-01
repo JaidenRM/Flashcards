@@ -3,11 +3,11 @@ import '../../model/flashcard_model.dart';
 
 abstract class ManageFlashcardState { 
   List<FlashcardModel> flashcards;
-  int currInd;
+  int currId;
 
-  ManageFlashcardState({this.currInd, this.flashcards});
+  ManageFlashcardState({this.currId, this.flashcards});
 
-  FlashcardModel get currFlashcard => flashcards[currInd];
+  FlashcardModel get currFlashcard => flashcards[currId];
 }
 
 class UninitialisedState extends ManageFlashcardState{}
@@ -19,14 +19,6 @@ class FetchedFlashcardsState extends ManageFlashcardState {
 
   FetchedFlashcardsState({@required List<FlashcardModel> flashcards})
     :super(flashcards:flashcards);
-}
-
-class UpdatingStatsState extends ManageFlashcardState {}
-
-class UpdatedStatsState extends ManageFlashcardState {
-  final bool isRight, isWrong, isLiked;
-
-  UpdatedStatsState({this.isRight, this.isWrong, this.isLiked});
 }
 
 class ErrorState extends ManageFlashcardState {}

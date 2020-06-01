@@ -1,15 +1,13 @@
-import 'package:meta/meta.dart';
 
-abstract class ManageFlashcardEvent { }
+abstract class ManageFlashcardEvent {  
+  int currId;
 
-class FetchFlashcardEvent extends ManageFlashcardEvent {
-  final String filter;
-
-  FetchFlashcardEvent({ this.filter });
+  ManageFlashcardEvent({this.currId});
 }
 
-class UpdateStateEvent extends ManageFlashcardEvent {
-  final bool isRight, isWrong, isLiked;
+class FetchFlashcardEvent extends ManageFlashcardEvent {
+  final bool isNext, isPrev;
+  final int targetId;
 
-  UpdateStateEvent({this.isRight, this.isWrong, this.isLiked});
+  FetchFlashcardEvent({ this.targetId, this.isNext, this.isPrev });
 }
