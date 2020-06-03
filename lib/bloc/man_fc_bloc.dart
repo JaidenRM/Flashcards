@@ -23,6 +23,11 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
     add(FetchFlashcardEvent(targetId: id, isNext: isNext, isPrev: isPrev));
   }
 
+  void onChangeCard() {
+    if(this.state is FetchedFlashcardsState)
+      add(ChangeFlashcardEvent(state));
+  }
+
   @override
   ManageFlashcardState get initialState => UninitialisedState();
 
@@ -40,11 +45,13 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
           flashcards.add(await _repo.fetchFlashcard(event.targetId, isNext: event.isNext, isPrev: event.isPrev));
         
         if(flashcards.length == 0) yield EmptyState();
-        else yield FetchedFlashcardsState(flashcards: flashcards);
+        else yield FetchedFlashcardsState(flashcards);
 
       } catch(_) {
         yield ErrorState();
       }
+    } else if (event is ChangeFlashcardEvent) {
+      yield FetchedFlashcardsState(event.state.flashcards, currId: event.state.currId + 1);
     }
   }
 

@@ -1,13 +1,9 @@
-import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 import '../../model/flashcard_model.dart';
 
-abstract class ManageFlashcardState { 
-  List<FlashcardModel> flashcards;
-  int currId;
-
-  ManageFlashcardState({this.currId, this.flashcards});
-
-  FlashcardModel get currFlashcard => flashcards[currId];
+abstract class ManageFlashcardState extends Equatable { 
+  @override
+  List<Object> get props => [];
 }
 
 class UninitialisedState extends ManageFlashcardState{}
@@ -15,10 +11,13 @@ class UninitialisedState extends ManageFlashcardState{}
 class FetchingFlashcardsState extends ManageFlashcardState{}
 
 class FetchedFlashcardsState extends ManageFlashcardState {
-  //List<FlashcardModel> flashcards;
-
-  FetchedFlashcardsState({@required List<FlashcardModel> flashcards})
-    :super(flashcards:flashcards);
+  final List<FlashcardModel> flashcards;
+  final int currId;
+  
+  @override
+  List<Object> get props => [flashcards, currId];
+  
+  FetchedFlashcardsState(this.flashcards, { this.currId = 0 });
 }
 
 class ErrorState extends ManageFlashcardState {}
