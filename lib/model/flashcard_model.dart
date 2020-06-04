@@ -2,7 +2,7 @@ import 'package:flashcards/utils/convert.dart';
 
 class FlashcardModel implements ConvertTo {
   String question, answer, hint;
-  int right, wrong;
+  int right, wrong, id;
   bool isLiked;
 
   FlashcardModel.newModel(String question, String answer, String hint) {
@@ -14,8 +14,9 @@ class FlashcardModel implements ConvertTo {
     this.isLiked = isLiked;
   }
 
-  FlashcardModel(String question, String answer, String hint
+  FlashcardModel(String id, String question, String answer, String hint
     , String right, String wrong, String isLiked) {
+    this.id = int.tryParse(id) ?? 0;
     this.question = question;
     this.answer = answer;
     this.hint = hint;
@@ -26,7 +27,7 @@ class FlashcardModel implements ConvertTo {
 
   @override
   List<String> toListString() {
-    return [question, answer, hint
+    return [id.toString(), question, answer, hint
       , right.toString(), wrong.toString(), isLiked.toString()];
   }
 }

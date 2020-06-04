@@ -1,5 +1,5 @@
 import 'package:flashcards/styles/app_styles.dart';
-import 'package:flashcards/ui/add-flashcard.dart';
+import 'package:flashcards/ui/add_flashcard.dart';
 import 'package:flashcards/ui/flashcard.dart';
 import 'package:flutter/material.dart';
 

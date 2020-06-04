@@ -1,20 +1,21 @@
-import 'package:meta/meta.dart';
 
-abstract class ManageFlashcardEvent { }
+import 'package:flashcards/bloc/state/man_fc_state.dart';
 
-class AddFlashcardEvent extends ManageFlashcardEvent {
-  final String question, answer, hint;
+abstract class ManageFlashcardEvent {  
+  int currId;
 
-  AddFlashcardEvent({ @required this.question, @required this.answer, this.hint }): assert(question != null && answer != null);
+  ManageFlashcardEvent({this.currId});
 }
+
 class FetchFlashcardEvent extends ManageFlashcardEvent {
-  final String filter;
+  final int targetId;
 
-  FetchFlashcardEvent({ this.filter });
+  FetchFlashcardEvent({ this.targetId });
 }
 
-class UpdateStateEvent extends ManageFlashcardEvent {
-  final bool isRight, isWrong, isLiked;
+class ChangeFlashcardEvent extends ManageFlashcardEvent {
+  final FetchedFlashcardsState state;
+  final bool isNext;
 
-  UpdateStateEvent({this.isRight, this.isWrong, this.isLiked});
+  ChangeFlashcardEvent(this.state, this.isNext);
 }
