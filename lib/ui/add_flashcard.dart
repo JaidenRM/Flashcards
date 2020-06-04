@@ -40,6 +40,7 @@ class _AddState extends State<AddFlashcard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget> [
                             Text('Question*', style: AppText.LABEL_TEXT),
+                            Padding(padding: EdgeInsets.all(10),),
                             Container(
                               width: MediaQuery.of(context).size.width * wFactor,
                               child: TextField(
@@ -54,6 +55,7 @@ class _AddState extends State<AddFlashcard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget> [
                             Text('Answer*', style: AppText.LABEL_TEXT),
+                            Padding(padding: EdgeInsets.all(10),),
                             Container(
                               width: MediaQuery.of(context).size.width * wFactor,
                               child: TextField(
@@ -67,6 +69,7 @@ class _AddState extends State<AddFlashcard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget> [
                             Text('Hint', style: AppText.LABEL_TEXT),
+                            Padding(padding: EdgeInsets.all(20),),
                             Container(
                               width: MediaQuery.of(context).size.width * wFactor,
                               child: TextField(

@@ -3,11 +3,12 @@ import 'package:flashcards/bloc/state/man_fc_state.dart' as manState;
 import 'package:flashcards/bloc/state/update_fc_state.dart';
 import 'package:flashcards/bloc/update_fc_bloc.dart';
 import 'package:flashcards/service/repository.dart';
+import 'package:flashcards/ui/error_page.dart';
 import '../bloc/flashcard_bloc.dart';
 import '../bloc/state/flashcard_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'empty_page.dart';
 import 'flashcard_back.dart';
 import 'flashcard_front.dart';
 
@@ -34,7 +35,6 @@ class _FlashcardState extends State<Flashcard> {
       ], 
       child: BlocListener<UpdateFlashcardBloc, UpdateFlashcardState>(
         listener: (context, state) => {
-          //on every 3rd tap it likes but 1st tap to unlike
           if(state is UpdatingFlashcardState) {
             Future.delayed(Duration(seconds: 1), () => Center(child: CircularProgressIndicator()))
           }
@@ -66,31 +66,42 @@ class FlashcardWidget extends StatelessWidget {
         if(state is manState.FetchingFlashcardsState)
             return Center(child: CircularProgressIndicator());
         else if(state is manState.FetchedFlashcardsState) {
-          return BlocBuilder<FlashcardBloc, FlashcardState>(
-            builder: (context, state) {
-              final _manState = context.bloc<ManageFlashcardBloc>().state as manState.FetchedFlashcardsState;
-              if(context.bloc<FlashcardBloc>().state.isFront) {
-                return GestureDetector(
-                  onTap: () => context.bloc<FlashcardBloc>().flip(),
-                  child: FlashcardFrontWidget(
-                    flashcard: _manState.flashcards[_manState.currId]
-                  )
-                );
-              } else {
-                return GestureDetector(
-                  onTap: () => context.bloc<FlashcardBloc>().flip(),
-                  child: FlashcardBackWidget(
-                    flashcard: _manState.flashcards[_manState.currId]
-                  )
-                );
-              }
-            },
-          );
-        } else {
+          return BuildFlashcard();
+        } else if(state is manState.EmptyState) {
+          return EmptyPage();
+        } else if(state is manState.ErrorState) {
+          return ErrorPage();
+        }else {
           return Text("We are not fetching...");
         }
       },
     );
+  } 
+}
+
+class BuildFlashcard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FlashcardBloc, FlashcardState>(
+      builder: (context, state) {
+        final _manState = context.bloc<ManageFlashcardBloc>().state as manState.FetchedFlashcardsState;
+        if(context.bloc<FlashcardBloc>().state.isFront) {
+          return GestureDetector(
+            onTap: () => context.bloc<FlashcardBloc>().flip(),
+            child: FlashcardFrontWidget(
+              flashcard: _manState.flashcards[_manState.currId]
+            )
+          );
+        } else {
+          return GestureDetector(
+            onTap: () => context.bloc<FlashcardBloc>().flip(),
+            child: FlashcardBackWidget(
+              flashcard: _manState.flashcards[_manState.currId]
+            )
+          );
+        }
+      },
+    );
   }
-  
+
 }

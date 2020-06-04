@@ -9,7 +9,7 @@ class Repository {
 
   //decide on how bloc calls this and assign the correct data func
   Future<FlashcardModel> fetchFlashcard(int id, { bool isNext = false, bool isPrev = false }) async => 
-    await data.fetchFlashcard(id, isNext: isNext, isPrev: isPrev);
+    await data.fetchFlashcard(id);
   Future<List<FlashcardModel>> fetchFlashcards() async => await data.fetchFlashcards();
   Future<bool> addFlashcard(FlashcardModel flashcard) async => await data.addFlashcard(flashcard);
   Future<bool> addFlashcards(List<FlashcardModel> flashcards) async => await data.addFlashcards(flashcards);

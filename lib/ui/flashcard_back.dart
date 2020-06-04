@@ -37,14 +37,12 @@ class FlashcardBackWidget extends StatelessWidget {
                 margin: EdgeInsets.only(top: 30),
                 child: BlocBuilder<UpdateFlashcardBloc, UpdateFlashcardState>(
                   builder: (context, state) {
-                    //final _bloc = ;
                     return (
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           GestureDetector(
-                            onTap: () => { context.bloc<ManageFlashcardBloc>()
-                              .onChangeCard()},
+                            onTap: () => context.bloc<ManageFlashcardBloc>().onChangeCard(false),
                             child: Icon(
                               Icons.keyboard_arrow_left
                               , size: 75
@@ -53,31 +51,25 @@ class FlashcardBackWidget extends StatelessWidget {
                           GestureDetector(
                             onTap: () => {
                               context.bloc<UpdateFlashcardBloc>().onRight(flashcard.id),
-                              //_bloc.onFetch()
                             },
                             child: Icon(Icons.check, size: 75, color: POS_COL)
                           ),
                           GestureDetector(
                             onTap: () => {
                               context.bloc<UpdateFlashcardBloc>().onWrong(flashcard.id),
-                              //_bloc.onFetch()
                             },
                             child: Icon(Icons.clear, size: 75, color: NEG_COL)
                           ),
                           GestureDetector(
                             onTap: () => {
                               context.bloc<UpdateFlashcardBloc>().onLiked(flashcard.id),
-                              //_bloc.onFetch()
                             },
                             child: Icon(flashcard.isLiked ?
                               Icons.favorite : Icons.favorite_border
                               , size: 60, color: NEG_COL)
                           ),
                           GestureDetector(
-                            onTap: () => { context.bloc<ManageFlashcardBloc>()
-                              .onFetch(
-                                id: flashcard.id,
-                                isNext: true)},
+                            onTap: () => context.bloc<ManageFlashcardBloc>().onChangeCard(true),
                             child: Icon(
                               Icons.keyboard_arrow_right
                               , size: 75

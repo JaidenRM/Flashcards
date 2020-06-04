@@ -8,14 +8,14 @@ abstract class ManageFlashcardEvent {
 }
 
 class FetchFlashcardEvent extends ManageFlashcardEvent {
-  final bool isNext, isPrev;
   final int targetId;
 
-  FetchFlashcardEvent({ this.targetId, this.isNext, this.isPrev });
+  FetchFlashcardEvent({ this.targetId });
 }
 
 class ChangeFlashcardEvent extends ManageFlashcardEvent {
   final FetchedFlashcardsState state;
+  final bool isNext;
 
-  ChangeFlashcardEvent(this.state);
+  ChangeFlashcardEvent(this.state, this.isNext);
 }

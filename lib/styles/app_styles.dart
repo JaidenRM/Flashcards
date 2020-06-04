@@ -10,6 +10,10 @@ abstract class AppText {
   );
   static const TextStyle ERROR_TEXT = TextStyle(color: NEG_COL);
   static const TextStyle LABEL_TEXT = TextStyle(color: PRIMARY_COL);
+  static const TextStyle HEADING_TEXT = TextStyle(
+    color: PRIMARY_COL,
+    fontSize: 48,
+    fontWeight: FontWeight.bold);
 }
 
 abstract class AppDeco {

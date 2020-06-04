@@ -37,10 +37,7 @@ class FlashcardFrontWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () => { context.bloc<ManageFlashcardBloc>()
-                        .onFetch(
-                          id: flashcard.id,
-                          isPrev: true)},
+                      onTap: () => context.bloc<ManageFlashcardBloc>().onChangeCard(false),
                       child: Icon(
                         Icons.keyboard_arrow_left
                         , size: 75
@@ -55,10 +52,7 @@ class FlashcardFrontWidget extends StatelessWidget {
                       child: Icon(Icons.help_outline, size: 75, color: TERTIARY_COL)
                     ),
                     GestureDetector(
-                      onTap: () => { context.bloc<ManageFlashcardBloc>()
-                        .onFetch(
-                          id: flashcard.id,
-                          isNext: true)},
+                      onTap: () => context.bloc<ManageFlashcardBloc>().onChangeCard(true),
                       child: Icon(
                         Icons.keyboard_arrow_right
                         , size: 75

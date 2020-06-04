@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flashcards/bloc/state/update_fc_state.dart' as updateState;
 import 'package:flashcards/bloc/update_fc_bloc.dart';
 import '../model/flashcard_model.dart';
@@ -19,13 +20,13 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
     });
   }
   
-  void onFetch({int id, bool isNext = false, bool isPrev = false}) {
-    add(FetchFlashcardEvent(targetId: id, isNext: isNext, isPrev: isPrev));
+  void onFetch({int id}) {
+    add(FetchFlashcardEvent(targetId: id));
   }
 
-  void onChangeCard() {
+  void onChangeCard(bool isNext) {
     if(this.state is FetchedFlashcardsState)
-      add(ChangeFlashcardEvent(state));
+      add(ChangeFlashcardEvent(state, isNext));
   }
 
   @override
@@ -42,7 +43,7 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
         if(event.targetId == null)
           flashcards= await _repo.fetchFlashcards();
         else
-          flashcards.add(await _repo.fetchFlashcard(event.targetId, isNext: event.isNext, isPrev: event.isPrev));
+          flashcards.add(await _repo.fetchFlashcard(event.targetId));
         
         if(flashcards.length == 0) yield EmptyState();
         else yield FetchedFlashcardsState(flashcards);
@@ -51,7 +52,12 @@ class ManageFlashcardBloc extends Bloc<ManageFlashcardEvent, ManageFlashcardStat
         yield ErrorState();
       }
     } else if (event is ChangeFlashcardEvent) {
-      yield FetchedFlashcardsState(event.state.flashcards, currId: event.state.currId + 1);
+      int targetId = event.isNext ? 
+        min(event.state.currId + 1, event.state.flashcards.length - 1) 
+        : 
+        max(event.state.currId - 1, 0);
+
+      yield FetchedFlashcardsState(event.state.flashcards, currId: targetId);
     }
   }
 
