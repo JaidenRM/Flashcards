@@ -11,9 +11,14 @@ class AddFlashcard extends StatefulWidget {
 }
 
 class _AddState extends State<AddFlashcard> {
-  static final Repository _repo = Repository();
-  final _bloc = AddFlashcardBloc(repo: _repo);
   static const wFactor = 0.65;
+  Repository _repo;
+  AddFlashcardBloc _bloc;
+
+  _AddState() {
+    _repo = Repository();
+    _bloc = AddFlashcardBloc(repo: _repo);
+  }
 
   String question, answer, hint;
   

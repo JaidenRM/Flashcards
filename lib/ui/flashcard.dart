@@ -19,10 +19,18 @@ class Flashcard extends StatefulWidget {
 }
 
 class _FlashcardState extends State<Flashcard> {
-  static final _repo = Repository();
-  static final _bloc = FlashcardBloc();
-  static final _updateBloc = UpdateFlashcardBloc(_repo);
-  static final _manageBloc = ManageFlashcardBloc(_repo, _updateBloc);
+  Repository _repo;
+  FlashcardBloc _bloc;
+  UpdateFlashcardBloc _updateBloc;
+  ManageFlashcardBloc _manageBloc;
+
+  _FlashcardState() {
+    _repo = Repository();
+    _bloc = FlashcardBloc();
+    _updateBloc = UpdateFlashcardBloc(_repo);
+    _manageBloc = ManageFlashcardBloc(_repo, _updateBloc);
+
+  }
 
   @override
   Widget build(BuildContext context) {
