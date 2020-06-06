@@ -1,5 +1,6 @@
 import 'package:flashcards/styles/app_styles.dart';
 import 'package:flashcards/ui/add_flashcard.dart';
+import 'package:flashcards/ui/animations/route_anim.dart';
 import 'package:flashcards/ui/flashcard.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +10,8 @@ class FetchRoute extends StatelessWidget {
     return Center(
       child:GestureDetector(
         onTap: () => {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => Flashcard())
+          Navigator.of(context).push( 
+            createRouteAnim(Flashcard())
           )
         },
         child: Container(
@@ -30,9 +30,8 @@ class AddRoute extends StatelessWidget {
     return Center(
       child:GestureDetector(
         onTap: () => {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => AddFlashcard())
+          Navigator.of(context).push( 
+            createRouteAnim(AddFlashcard())
           )
         },
         child: Container(
@@ -43,5 +42,4 @@ class AddRoute extends StatelessWidget {
       )
     );
   }
-
 }
