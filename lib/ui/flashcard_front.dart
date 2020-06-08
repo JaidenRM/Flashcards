@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flashcards/bloc/man_fc_bloc.dart';
 import 'package:flashcards/model/flashcard_model.dart';
@@ -7,10 +9,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants.dart';
 
-class FlashcardFrontWidget extends StatelessWidget {
+class FlashcardFrontWidget extends StatefulWidget {
   final FlashcardModel flashcard;
+  final Key key;
 
-  FlashcardFrontWidget({ @required this.flashcard });
+  FlashcardFrontWidget(this.flashcard, this.key ) : super(key: key);
+
+  @override
+  FlashcardFrontWidgetState createState() => FlashcardFrontWidgetState(flashcard);
+}
+
+class FlashcardFrontWidgetState extends State<FlashcardFrontWidget> with SingleTickerProviderStateMixin {
+  final FlashcardModel flashcard;
+  AnimationController _animController;
+  Animation _anim;
+
+  FlashcardFrontWidgetState(this.flashcard);
+  
+  void exit() {
+    setState(() {
+      _animController.forward(from: 0.0);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _anim = Tween<double>(begin: 0, end: -1 * pi).animate(_animController);
+
+    _animController.addListener(() => setState(() {}));
+
+    _animController.reverse(from: 1.0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +50,9 @@ class FlashcardFrontWidget extends StatelessWidget {
       appBar: getAppBar('Flashcard'),
       body: 
         Container(
+          transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001) //These are magic numbers, just use them :)
+              ..rotateX(_anim.value),
           margin: EdgeInsets.all(20),
           decoration: AppDeco.BOX_BORDER_SHADOW,
           child: Column(

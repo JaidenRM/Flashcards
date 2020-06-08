@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flashcards/bloc/man_fc_bloc.dart';
 import 'package:flashcards/bloc/state/man_fc_state.dart' as manState;
 import 'package:flashcards/bloc/state/update_fc_state.dart';
 import 'package:flashcards/bloc/update_fc_bloc.dart';
 import 'package:flashcards/service/repository.dart';
+import 'package:flashcards/ui/animations/extensions.dart';
 import 'package:flashcards/ui/error_page.dart';
 import '../bloc/flashcard_bloc.dart';
 import '../bloc/state/flashcard_state.dart';
@@ -88,23 +91,37 @@ class FlashcardWidget extends StatelessWidget {
 }
 
 class BuildFlashcard extends StatelessWidget {
+  final GlobalKey<FlashcardFrontWidgetState> frontKey = GlobalKey<FlashcardFrontWidgetState>();
+  final GlobalKey<FlashcardBackWidgetState> backKey = GlobalKey<FlashcardBackWidgetState>();
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FlashcardBloc, FlashcardState>(
       builder: (context, state) {
         final _manState = context.bloc<ManageFlashcardBloc>().state as manState.FetchedFlashcardsState;
+        
         if(context.bloc<FlashcardBloc>().state.isFront) {
           return GestureDetector(
-            onTap: () => context.bloc<FlashcardBloc>().flip(),
-            child: FlashcardFrontWidget(
-              flashcard: _manState.flashcards[_manState.currId]
-            )
+            key: ValueKey<int>(1),
+            onTap: () {
+              frontKey.currentState.exit();
+              Future.delayed(Duration(milliseconds: 600))
+                .then((value) => context.bloc<FlashcardBloc>().flip()
+              );
+            },
+            child: FlashcardFrontWidget(_manState.flashcards[_manState.currId], frontKey)
           );
         } else {
           return GestureDetector(
-            onTap: () => context.bloc<FlashcardBloc>().flip(),
+            key: ValueKey<int>(2),
+            onTap: () {
+              backKey.currentState.exit();
+              Future.delayed(Duration(milliseconds: 600))
+                .then((value) => context.bloc<FlashcardBloc>().flip());
+            },
             child: FlashcardBackWidget(
-              flashcard: _manState.flashcards[_manState.currId]
+              _manState.flashcards[_manState.currId],
+              backKey
             )
           );
         }
