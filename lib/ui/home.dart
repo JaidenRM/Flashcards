@@ -1,5 +1,6 @@
+import 'package:flashcards/constants.dart';
 import 'package:flashcards/styles/app_styles.dart';
-import 'package:flashcards/utils/routes.dart';
+import 'package:flashcards/widget/menu_drag_scroll.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -15,16 +16,17 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(title: Text(widget.title)),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: SizedBox.expand(
+        child: Stack(
           children: <Widget>[
-            FetchRoute(),
-            Padding(padding: EdgeInsets.all(30),),
-            AddRoute()
-          ],)
+            Image.asset(IMG_LOGO),
+            Container(
+              child: DraggableScrollableMenu()
+            )
+          ],
+        )
       ),
     );
   }

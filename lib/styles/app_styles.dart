@@ -24,6 +24,12 @@ abstract class AppDeco {
       borderRadius: BorderRadius.all(Radius.circular(18)),
       color: SECONDARY_COL
     );
+
+  static final BoxDecoration BLURRED_BOX = 
+    BoxDecoration(
+      boxShadow: const [ BoxShadow(blurRadius: 30) ],
+      border: Border.all(color: TERTIARY_COL, width: 0.5)
+    );
   
   static final BoxDecoration BLACK_BOX = 
     BoxDecoration (

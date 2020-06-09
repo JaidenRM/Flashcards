@@ -5,3 +5,5 @@ const SECONDARY_COL = Colors.white;
 const TERTIARY_COL = Colors.black;
 const POS_COL = Colors.green;
 const NEG_COL = Colors.red;
+
+const IMG_LOGO = "lib/assets/images/flashcard_quick_logo.png";
