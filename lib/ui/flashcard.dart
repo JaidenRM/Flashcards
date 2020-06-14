@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flashcards/bloc/man_fc_bloc.dart';
 import 'package:flashcards/bloc/state/man_fc_state.dart' as manState;
 import 'package:flashcards/bloc/state/update_fc_state.dart';
 import 'package:flashcards/bloc/update_fc_bloc.dart';
 import 'package:flashcards/service/repository.dart';
-import 'package:flashcards/ui/animations/extensions.dart';
 import 'package:flashcards/ui/error_page.dart';
 import '../bloc/flashcard_bloc.dart';
 import '../bloc/state/flashcard_state.dart';

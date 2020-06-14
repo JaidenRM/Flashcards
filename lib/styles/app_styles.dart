@@ -36,4 +36,13 @@ abstract class AppDeco {
       borderRadius: BorderRadius.all(Radius.circular(18)),
       color: Colors.black
     );
+
+  static final BoxDecoration CIRCLE_BOX = 
+    BoxDecoration(
+      shape: BoxShape.circle,
+      color: Colors.white,
+      border: Border.all(width: 3, color: Colors.black),
+      //boxShadow: const [ BoxShadow(offset: Offset(5, 5), blurRadius: 10) ],
+    );
+
 }

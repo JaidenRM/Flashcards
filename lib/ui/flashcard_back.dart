@@ -25,6 +25,10 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
   final FlashcardModel flashcard;
   AnimationController _animController;
   Animation _anim;
+  Animation _growShrink;
+  Animation _rockSideToSide;
+  Animation _glideOut; //make the number glide side2side and up
+  Animation _fadeOut; //combine with above to fade out as gliding
 
   FlashcardBackWidgetState(this.flashcard);
   
@@ -38,8 +42,36 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
   void initState() {
     super.initState();
 
-    _animController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _anim = Tween<double>(begin: 0, end: 1 * pi).animate(_animController);
+    _animController = AnimationController(vsync: this, duration: Duration(milliseconds: 1900));
+    _anim = Tween<double>(begin: 0, end: 1 * pi).animate(
+      CurvedAnimation(
+        parent: _animController, 
+        curve: Interval(0.9, 1),
+        reverseCurve: Interval(0.8, 1)));
+    _growShrink = 
+        TweenSequence([
+          TweenSequenceItem(tween: Tween<double>(begin: 1, end: 0.5), weight: 1),
+          TweenSequenceItem(tween: Tween<double>(begin: 0.5, end: 1.5), weight: 2),
+          TweenSequenceItem(tween: Tween<double>(begin: 1.5, end: 1), weight: 5)
+        ])
+      .animate(CurvedAnimation(parent: _animController, curve: Interval(0.0, 0.8)));
+    _rockSideToSide =
+        TweenSequence([
+          TweenSequenceItem(tween: Tween<double>(begin: 0, end: -0.25*pi), weight: 1),
+          TweenSequenceItem(tween: Tween<double>(begin: -0.25*pi, end: 0.25*pi), weight: 1),
+          TweenSequenceItem(tween: Tween<double>(begin: 0.25*pi, end: -0.25*pi), weight: 1),
+          TweenSequenceItem(tween: Tween<double>(begin: -0.25*pi, end: 0), weight: 1),
+        ])
+      .animate(CurvedAnimation(parent: _animController, curve: Interval(0.3, 0.6)));
+    _glideOut = Tween<double>(begin: 30, end: 0).animate(CurvedAnimation(
+      parent: _animController,
+      curve: Interval(0.2, 0.6)
+    ));
+    _fadeOut = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _animController,
+      curve: Interval(0.9, 1),
+      reverseCurve: Interval(0, 0.2)
+    ));
 
     _animController.addListener(() => setState(() {}));
 
@@ -83,24 +115,63 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => {
-                              context.bloc<UpdateFlashcardBloc>().onRight(flashcard.id),
+                            onTap: () {
+                              context.bloc<UpdateFlashcardBloc>().onRight(flashcard.id);
                             },
-                            child: Icon(Icons.check, size: 75, color: POS_COL)
+                            child: Stack(children: <Widget>[
+                              Transform.rotate(
+                                angle: state is UpdatedFlashcardState && state.updatedRight ? _rockSideToSide.value : 0,
+                                child: Icon(Icons.check, color: POS_COL,
+                                  size: state is UpdatedFlashcardState && state.updatedRight ? 75 * _growShrink.value : 75)
+                              ), 
+                              if(state is UpdatedFlashcardState && state.updatedRight)
+                                Transform.translate(
+                                  offset: Offset(_glideOut.value, 25 -_glideOut.value),
+                                  child: Opacity(
+                                    opacity: _fadeOut.value,
+                                    child: Container(
+                                      decoration: AppDeco.CIRCLE_BOX,
+                                      padding: EdgeInsets.all(5),
+                                      child: Text(flashcard.right.toString(), style: AppText.LABEL_TEXT)),
+                                  )
+                                )
+                              ]
+                            )
                           ),
                           GestureDetector(
                             onTap: () => {
                               context.bloc<UpdateFlashcardBloc>().onWrong(flashcard.id),
                             },
-                            child: Icon(Icons.clear, size: 75, color: NEG_COL)
+                            child: Stack(children: <Widget>[
+                              Transform.rotate(
+                                angle: state is UpdatedFlashcardState && state.updatedWrong ? _rockSideToSide.value : 0,
+                                child: Icon(Icons.clear, color: NEG_COL,
+                                  size: state is UpdatedFlashcardState && state.updatedWrong ? 75 * _growShrink.value : 75)
+                              ), 
+                              if(state is UpdatedFlashcardState && state.updatedWrong)
+                                Transform.translate(
+                                  offset: Offset(_glideOut.value, 25 -_glideOut.value),
+                                  child: Opacity(
+                                    opacity: _fadeOut.value,
+                                    child: Container(
+                                      decoration: AppDeco.CIRCLE_BOX,
+                                      padding: EdgeInsets.all(5),
+                                      child: Text(flashcard.wrong.toString(), style: AppText.LABEL_TEXT)),
+                                  )
+                                )
+                              ]
+                            )
                           ),
                           GestureDetector(
                             onTap: () => {
                               context.bloc<UpdateFlashcardBloc>().onLiked(flashcard.id),
                             },
-                            child: Icon(flashcard.isLiked ?
-                              Icons.favorite : Icons.favorite_border
-                              , size: 60, color: NEG_COL)
+                            child: Transform.rotate(
+                              angle: state is UpdatedFlashcardState && state.updatedLiked ? _rockSideToSide.value : 0,
+                              child: Icon(flashcard.isLiked ?
+                                Icons.favorite : Icons.favorite_border
+                                , size: state is UpdatedFlashcardState && state.updatedLiked ? 60 * _growShrink.value : 60
+                                , color: NEG_COL))
                           ),
                           GestureDetector(
                             onTap: () => context.bloc<ManageFlashcardBloc>().onChangeCard(true),

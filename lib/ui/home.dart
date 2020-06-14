@@ -1,5 +1,4 @@
 import 'package:flashcards/constants.dart';
-import 'package:flashcards/styles/app_styles.dart';
 import 'package:flashcards/widget/menu_drag_scroll.dart';
 import 'package:flutter/material.dart';
 

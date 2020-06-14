@@ -29,7 +29,10 @@ class UpdateFlashcardBloc extends Bloc<UpdateEvent, UpdateFlashcardState> {
         , liked: event.updateLiked
       );
 
-      yield UpdatedFlashcardState(event.cardId);
+      yield UpdatedFlashcardState(event.cardId
+        , updatedRight: event.updateRight
+        , updatedWrong: event.updateWrong
+        , updatedLiked: event.updateLiked);
     }
   }
   

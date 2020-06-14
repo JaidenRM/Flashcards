@@ -12,8 +12,9 @@ class UpdatingFlashcardState extends UpdateFlashcardState {}
 
 class UpdatedFlashcardState extends UpdateFlashcardState {
   final int cardId;
+  final bool updatedRight, updatedWrong, updatedLiked;
 
-  UpdatedFlashcardState(this.cardId);
+  UpdatedFlashcardState(this.cardId, { this.updatedRight, this.updatedWrong, this.updatedLiked });
 
   @override
   List<Object> get props => [cardId];
