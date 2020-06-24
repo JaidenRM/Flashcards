@@ -46,7 +46,7 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
     _anim = Tween<double>(begin: 0, end: 1 * pi).animate(
       CurvedAnimation(
         parent: _animController, 
-        curve: Interval(0.9, 1),
+        curve: Interval(0, 0.25),
         reverseCurve: Interval(0.8, 1)));
     _growShrink = 
         TweenSequence([
@@ -122,7 +122,9 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
                               Transform.rotate(
                                 angle: state is UpdatedFlashcardState && state.updatedRight ? _rockSideToSide.value : 0,
                                 child: Icon(Icons.check, color: POS_COL,
-                                  size: state is UpdatedFlashcardState && state.updatedRight ? 75 * _growShrink.value : 75)
+                                  size: state is UpdatedFlashcardState ? 
+                                    state.updatedRight ? 75 * _growShrink.value : 75 * min(1.0, 1/_growShrink.value) 
+                                    : 75)
                               ), 
                               if(state is UpdatedFlashcardState && state.updatedRight)
                                 Transform.translate(
@@ -146,7 +148,9 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
                               Transform.rotate(
                                 angle: state is UpdatedFlashcardState && state.updatedWrong ? _rockSideToSide.value : 0,
                                 child: Icon(Icons.clear, color: NEG_COL,
-                                  size: state is UpdatedFlashcardState && state.updatedWrong ? 75 * _growShrink.value : 75)
+                                  size: state is UpdatedFlashcardState ?
+                                    state.updatedWrong ? 75 * _growShrink.value : 75 * min(1.0, 1/_growShrink.value)
+                                    : 75)
                               ), 
                               if(state is UpdatedFlashcardState && state.updatedWrong)
                                 Transform.translate(
@@ -170,7 +174,9 @@ class FlashcardBackWidgetState extends State<FlashcardBackWidget> with SingleTic
                               angle: state is UpdatedFlashcardState && state.updatedLiked ? _rockSideToSide.value : 0,
                               child: Icon(flashcard.isLiked ?
                                 Icons.favorite : Icons.favorite_border
-                                , size: state is UpdatedFlashcardState && state.updatedLiked ? 60 * _growShrink.value : 60
+                                , size: state is UpdatedFlashcardState ? 
+                                  state.updatedLiked ? 60 * _growShrink.value : 60 * min(1/_growShrink.value, 1.0)
+                                  : 60
                                 , color: NEG_COL))
                           ),
                           GestureDetector(
